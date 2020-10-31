@@ -8,9 +8,7 @@
  * @format
  */
 
-import React, {useState} from 'react';
-import {Animated, View, ScrollView, Text} from 'react-native';
-import {HeaderStyleInterpolators} from '@react-navigation/stack';
+import React from 'react';
 
 import {createStackNavigator} from '@react-navigation/stack';
 
