@@ -100,8 +100,6 @@ const withAnimatedHeader = (
     });
   }, []);
 
-  // style={{marginTop: canGoBack ? 0 : -60}}
-
   return (
     <RN.View
       style={{
