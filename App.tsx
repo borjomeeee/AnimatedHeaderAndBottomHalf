@@ -32,6 +32,7 @@ const App = () => {
         screenOptions={{
           headerStyle: {
             elevation: 0,
+            height: 60,
           },
           headerTitleAlign: 'center',
           headerTitleStyle: {
@@ -57,6 +58,13 @@ const App = () => {
             headerRightContainerStyle: {
               opacity: 0,
             },
+          }}
+        />
+                <AppNav.Screen
+          name="Page1"
+          component={Page}
+          options={{
+            title: 'Profile',
           }}
         />
       </AppNav.Navigator>

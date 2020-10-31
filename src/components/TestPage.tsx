@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useNavigationState} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import * as RN from 'react-native';
 
@@ -7,9 +7,12 @@ const TestPage = () => {
 
   const [titleHeight, setTitleHeight] = useState(0);
   const [headerIsOpened, setHeaderISOpened] = useState(false);
+  const [canGoBack] = useState(navigation.canGoBack());
 
   const [animatedFontSize] = useState(new RN.Animated.Value(1));
+
   const [headerHeight] = useState(new RN.Animated.Value(0));
+  const [bgc] = useState(new RN.Animated.Value(0));
 
   const onLayoutTitle = (event: any) => {
     const {height, y} = event.nativeEvent.layout;
@@ -18,19 +21,33 @@ const TestPage = () => {
   };
 
   const onShowHeader = () => {
-    RN.Animated.timing(headerHeight, {
-      toValue: 1,
-      duration: 200,
-      useNativeDriver: false,
-    }).start();
+    RN.Animated.parallel([
+      RN.Animated.timing(headerHeight, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: false,
+      }),
+      RN.Animated.timing(bgc, {
+        toValue: 1,
+        duration: 10,
+        useNativeDriver: false,
+      }),
+    ]).start();
   };
 
   const onCloseHeader = () => {
-    RN.Animated.timing(headerHeight, {
-      toValue: 0,
-      duration: 200,
-      useNativeDriver: false,
-    }).start();
+    RN.Animated.parallel([
+      RN.Animated.timing(headerHeight, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: false,
+      }),
+      RN.Animated.timing(bgc, {
+        toValue: 0,
+        duration: 10,
+        useNativeDriver: false,
+      }),
+    ]).start();
   };
 
   useEffect(() => {
@@ -38,7 +55,13 @@ const TestPage = () => {
       title: '[4424]. Сделать дизайн и плюс ко всему сайт',
       headerStyle: {
         elevation: 0,
-        borderBottomWidth: headerHeight,
+        borderBottomWidth: bgc,
+        backgroundColor: canGoBack
+          ? '#fff'
+          : bgc.interpolate({
+              inputRange: [0, 0.999999999999, 1],
+              outputRange: ['transparent', 'transparent', 'white'],
+            }),
 
         // borderBottomColor: headerHeight.interpolate({
         //     inputRange: [0, 1],
@@ -47,11 +70,11 @@ const TestPage = () => {
       },
       headerTitleContainerStyle: {
         opacity: headerHeight,
+        backgroundColor: '#fff',
       },
       headerRightContainerStyle: {
         opacity: headerHeight,
       },
-      header: undefined,
     });
   }, []);
 
@@ -81,13 +104,18 @@ const TestPage = () => {
       style={{
         flex: 1,
         backgroundColor: '#fff',
+        marginTop: canGoBack ? 0 : -60,
       }}>
       <RN.View
         style={{
           flex: 1,
         }}>
         <RN.ScrollView
-          style={{backgroundColor: '#fff', padding: 20}}
+          style={{
+            backgroundColor: '#fff',
+            paddingHorizontal: 20,
+            paddingTop: canGoBack ? 0 : 30,
+          }}
           onScroll={handleScroll}>
           <RN.View onLayout={onLayoutTitle}>
             <RN.Animated.Text
