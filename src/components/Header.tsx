@@ -9,8 +9,6 @@ interface IHeader {
   fontSize: RN.Animated.Value;
 }
 
-// style={{marginTop: canGoBack ? 0 : -60}}
-
 const Header: React.FC<IHeader> = ({title, canGoBack, fontSize, onLayout}) => {
   return (
     <RN.View

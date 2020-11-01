@@ -20,34 +20,21 @@ const withAnimatedHeader = (
   const [animatedHeaderHeight] = useState(new RN.Animated.Value(0));
   const [animatedHeaderS] = useState(new RN.Animated.Value(0));
 
-  const onShowHeader = () => {
+  const onToggleShowHeader = () => {
     RN.Animated.parallel([
       RN.Animated.timing(animatedHeaderHeight, {
-        toValue: 1,
+        toValue: +!headerIsOpened,
         duration: 200,
         useNativeDriver: false,
       }),
       RN.Animated.timing(animatedHeaderS, {
-        toValue: 1,
+        toValue: +!headerIsOpened,
         duration: 10,
         useNativeDriver: false,
       }),
     ]).start();
-  };
 
-  const onCloseHeader = () => {
-    RN.Animated.parallel([
-      RN.Animated.timing(animatedHeaderHeight, {
-        toValue: 0,
-        duration: 200,
-        useNativeDriver: false,
-      }),
-      RN.Animated.timing(animatedHeaderS, {
-        toValue: 0,
-        duration: 10,
-        useNativeDriver: false,
-      }),
-    ]).start();
+    setHeaderISOpened((show) => !show);
   };
 
   const onLayoutTitle = (event: any) => {
@@ -59,14 +46,14 @@ const withAnimatedHeader = (
   const handleScroll = (event: any) => {
     const {y} = event.nativeEvent.contentOffset;
 
-    if (y >= titleHeight && !headerIsOpened) {
-      onShowHeader();
-      setHeaderISOpened(true);
-    } else if (y < titleHeight && headerIsOpened) {
-      onCloseHeader();
-      setHeaderISOpened(false);
+    const mainTitleNeedHide = y >= titleHeight && !headerIsOpened;
+    const mainTitleNeedShow = y < titleHeight && headerIsOpened;
+
+    if (mainTitleNeedHide || mainTitleNeedShow) {
+      onToggleShowHeader();
     }
 
+    // Change main title font-size
     if (!headerIsOpened) {
       const value =
         (titleHeight - y) / titleHeight < 0

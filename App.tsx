@@ -25,7 +25,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <AppNav.Navigator
-        initialRouteName="Page"
+        initialRouteName="TestPage"
         headerMode="screen"
         screenOptions={{
           headerStyle: {
@@ -56,13 +56,6 @@ const App = () => {
             headerRightContainerStyle: {
               opacity: 0,
             },
-          }}
-        />
-                <AppNav.Screen
-          name="Page1"
-          component={Page}
-          options={{
-            title: 'Profile',
           }}
         />
       </AppNav.Navigator>
