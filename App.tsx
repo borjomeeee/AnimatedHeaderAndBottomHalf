@@ -25,7 +25,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <AppNav.Navigator
-        initialRouteName="TestPage"
+        initialRouteName="Page"
         headerMode="screen"
         screenOptions={{
           headerStyle: {

@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import * as RN from 'react-native';
+import BottomHalf from '../containers/BottomHalf';
 
 import withAnimatedHeader from '../HOCs/withAnimatedHeader';
 
 const TestPage = () => {
+  const [visibleModal, setVisibleModal] = useState(false);
+
   return (
     <RN.View
       style={{
@@ -12,7 +15,12 @@ const TestPage = () => {
         justifyContent: 'center',
         marginTop: 30,
       }}>
-      <RN.Text style={{fontSize: 18}}>
+      <RN.Button
+        title="Открыть модалку"
+        onPress={setVisibleModal.bind(null, true)}
+      />
+
+      <RN.Text style={{fontSize: 18, marginTop: 20}}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in
         tristique purus. Mauris hendrerit consectetur nunc, sit amet dictum mi
         fermentum quis. Pellentesque pharetra tempus erat vitae suscipit. Cras
@@ -41,6 +49,30 @@ const TestPage = () => {
         Integer et laoreet erat. Phasellus convallis consequat neque, a eleifend
         nunc luctus in. Nulla sit amet commodo dolor.
       </RN.Text>
+
+      <BottomHalf
+        isVisible={visibleModal}
+        onClose={setVisibleModal.bind(null, false)}>
+        <RN.Text style={{paddingVertical: 15, fontSize: 18}}>
+          Hello, world
+        </RN.Text>
+        <RN.View style={{height: 1, backgroundColor: '#c4c4c4'}} />
+
+        <RN.Text style={{paddingVertical: 15, fontSize: 18}}>
+          Hello, world
+        </RN.Text>
+        <RN.View style={{height: 1, backgroundColor: '#c4c4c4'}} />
+
+        <RN.Text style={{paddingVertical: 15, fontSize: 18}}>
+          Hello, world
+        </RN.Text>
+        <RN.View style={{height: 1, backgroundColor: '#c4c4c4'}} />
+
+        <RN.Text style={{paddingVertical: 15, fontSize: 18}}>
+          Hello, world
+        </RN.Text>
+        <RN.View style={{height: 1, backgroundColor: '#c4c4c4'}} />
+      </BottomHalf>
     </RN.View>
   );
 };
